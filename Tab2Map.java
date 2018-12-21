@@ -38,17 +38,14 @@ public class Tab2Map extends Fragment {
     Context context = this.getContext();
     FragmentActivity fragmentActivity = this.getActivity();
 
-    FirebaseManager firebaseManager = new FirebaseManager();
+    DataManager dataManager = new DataManager();
 
-    List<Establishment> elist = firebaseManager.getAllEstablishments();
+    List<Establishment> elist = dataManager.getEstablishments();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab2_fragment, container, false);
-
-        String extras = getArguments().getString("category");
-        checkCategory(extras);
 
         mMapView = (MapView) view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -61,6 +58,12 @@ public class Tab2Map extends Fragment {
             e.printStackTrace();
         }
 
+        mapAsync();
+
+        return view;
+    }
+
+    private void mapAsync(){
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -86,30 +89,15 @@ public class Tab2Map extends Fragment {
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
-
-        return view;
-    }
-
-
-    public void checkCategory(String category){
-        switch (category){
-            case "All":
-                Toast.makeText(this.getActivity(), "all", Toast.LENGTH_LONG).show();
-            case "Clubs, Bars & Pubs":
-                Toast.makeText(this.getActivity(), "clubs", Toast.LENGTH_LONG).show();
-            case "Restaurants and cafe":
-                Toast.makeText(this.getActivity(), "cafe", Toast.LENGTH_LONG).show();
-            case "Hotspots":
-                Toast.makeText(this.getActivity(), "hotspots", Toast.LENGTH_LONG).show();
-            default:
-                Toast.makeText(this.getActivity(), "all", Toast.LENGTH_LONG).show();
-
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Bundle bundle = this.getArguments();
+        String category = bundle.get("category").toString();
+        dataManager.checkCategory(category);
+        mapAsync();
         mMapView.onResume();
     }
 

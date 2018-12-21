@@ -63,6 +63,7 @@ public class Board extends AppCompatActivity {
                 Toast.makeText(this, "about", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.all:
+
                 categorizePosts("All");
                 //Toast.makeText(this, "Item 2", Toast.LENGTH_LONG).show();
                 return true;
@@ -71,7 +72,7 @@ public class Board extends AppCompatActivity {
                 //Toast.makeText(this, "Item 3", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.restaurants:
-                categorizePosts("Restaurants and cafe");
+                categorizePosts("Restaurants & Café");
                 return true;
             case R.id.hotspots:
                 categorizePosts("Hotspots");

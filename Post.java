@@ -6,26 +6,12 @@ package com.example.bruger.test;
 
 public class Post {
 
-    private int id, image;
     private String title, location, type;
-    private double rating;
 
-
-    public Post(int id, String title, String location, String type, double rating, int image) {
-        this.id = id;
+    public Post(String title, String location, String type) {
         this.title = title;
         this.location = location;
         this.type = type;
-        this.rating = rating;
-        this.image = image;
-    }
-
-    public int getImage(){
-        return image;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -40,7 +26,4 @@ public class Post {
         return type;
     }
 
-    public double getRating() {
-        return rating;
-    }
 }

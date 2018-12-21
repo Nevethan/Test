@@ -7,26 +7,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EstablishmentsList extends AppCompatActivity {
 
-    String[] programs = {
-            "Program 1",
-            "Program 2",
-            "Program 3",
-            "Program 4",
-            "Program 5",
-            "Program 6"
-    };
 
-    Integer[] imageId = {
-            R.drawable.me,
-            R.drawable.me,
-            R.drawable.me,
-            R.drawable.me,
-            R.drawable.me,
-            R.drawable.me
-    };
+    List<Establishment> establishments = new ArrayList<>();
 
+    DataManager dataManager = new DataManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +23,20 @@ public class EstablishmentsList extends AppCompatActivity {
         setContentView(R.layout.activity_establishments_list);
 
         ListView listView = (ListView) findViewById(R.id.listViewEstablishments);
-        CustomList customList = new CustomList(this,programs,imageId);
+
+        establishments = dataManager.getEstablishments();
+
+        EstablishmentCustomList establishmentCustomList = new EstablishmentCustomList(this,establishments);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String nameOfEstablishment = programs[position];
+                String nameOfEstablishment = establishments.get(position).getName();
                 directToEstablishmentInfo(nameOfEstablishment);
             }
         });
 
-        listView.setAdapter(customList);
+        listView.setAdapter(establishmentCustomList);
     }
 
     public void directToEstablishmentInfo(String msg){
@@ -52,7 +44,5 @@ public class EstablishmentsList extends AppCompatActivity {
         intent.putExtra("Name of Establishment", msg);
         startActivity(intent);
     }
-
-
 
 }
