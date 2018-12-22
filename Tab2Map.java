@@ -38,9 +38,9 @@ public class Tab2Map extends Fragment {
     Context context = this.getContext();
     FragmentActivity fragmentActivity = this.getActivity();
 
-    DataManager dataManager = new DataManager();
+    DataManager dataManager = DataManager.getInstance();
 
-    List<Establishment> elist = dataManager.getEstablishments();
+    List<Establishment> establishments = dataManager.returnEstablishmentList();
 
     @Nullable
     @Override
@@ -58,47 +58,60 @@ public class Tab2Map extends Fragment {
             e.printStackTrace();
         }
 
-        mapAsync();
-
-        return view;
-    }
-
-    private void mapAsync(){
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(context, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(fragmentActivity,"All permission should be accepted", Toast.LENGTH_SHORT).show();
+
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
                 }
                 googleMap.setMyLocationEnabled(true);
 
 
                 // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
+                /*LatLng sydney = new LatLng(-34, 151);
                 googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description").
-                        icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-
+                        icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));*/
+                //createMarkers(googleMap);
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                //googleMap
+                //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
+
+        return view;
+    }
+
+
+
+    private void createMarkers(GoogleMap map){
+        for(Establishment e : establishments){
+            double lat = e.getLat();
+            double lng = e.getLng();
+
+            LatLng marker = new LatLng(lat,lng);
+            map.addMarker(new MarkerOptions().position(marker).title(e.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Bundle bundle = this.getArguments();
+        /*Bundle bundle = this.getArguments();
         String category = bundle.get("category").toString();
         dataManager.checkCategory(category);
         mapAsync();
-        mMapView.onResume();
+        mMapView.onResume();*/
     }
 
     @Override

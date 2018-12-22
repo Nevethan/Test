@@ -1,7 +1,9 @@
 package com.example.bruger.test;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ public class Board extends AppCompatActivity {
     private SectionsPageAdapter mSectionsPageAdapter;
 
     private ViewPager mViewPager;
+
+    private DataManager dataManager = DataManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +67,20 @@ public class Board extends AppCompatActivity {
                 Toast.makeText(this, "about", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.all:
-
-                categorizePosts("All");
+                dataManager.getEstablishments();
                 //Toast.makeText(this, "Item 2", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.clubs:
-                categorizePosts("Clubs, Bars & Pubs");
+                dataManager.barsCategory();
+                directToBoard();
+                //categorizePosts("Clubs, Bars & Pubs");
                 //Toast.makeText(this, "Item 3", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.restaurants:
-                categorizePosts("Restaurants & Café");
+                //categorizePosts("Restaurants & Café");
                 return true;
             case R.id.hotspots:
-                categorizePosts("Hotspots");
+                //categorizePosts("Hotspots");
                 return true;
             case R.id.list_establishments:
                 directToEstablishmentList();
@@ -84,15 +89,18 @@ public class Board extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void categorizePosts(String category){
+    /*public void categorizePosts(String category){
         //See if you can direct to Board Activity - so that you dont have to be directed to tab1 every time.
-        Intent intent = new Intent(this,Tab1Posts.class);
-        intent.putExtra("Category", category);
-        startActivity(intent);
-    }
+        dataManager.checkCategory(category);
+    }*/
 
     public void directToEstablishmentList(){
         Intent intent = new Intent(this, EstablishmentsList.class);
+        startActivity(intent);
+    }
+
+    public void directToBoard(){
+        Intent intent = new Intent(this, Board.class);
         startActivity(intent);
     }
 }

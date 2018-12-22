@@ -1,6 +1,9 @@
 package com.example.bruger.test;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,21 +24,34 @@ public class PostCustomList extends ArrayAdapter<Post>{
 
     List<Post> posts = new ArrayList<>();
 
-    public PostCustomList(Context context, List<Post> posts){
-        super(context, R.layout.post_custom_list);
-        this.posts = posts;
+    private Context mContext;
+
+    public PostCustomList(@NonNull Context context, @LayoutRes List<Post> list){
+        super(context, 0,list);
+        mContext = context;
+        posts = list;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View row = layoutInflater.inflate(R.layout.post_custom_list, parent, false);
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View listItem = convertView;
 
-        TextView title = (TextView) row.findViewById(R.id.textView10);
-        TextView location = (TextView) row.findViewById(R.id.textView12);
-        TextView Type = (TextView) row.findViewById(R.id.textView13);
+        if(listItem == null){
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.post_custom_list,parent,false);
+        }
 
-        return row;
+        Post currentPost = posts.get(position);
+
+        TextView title = (TextView) listItem.findViewById(R.id.textView10);
+        TextView location = (TextView) listItem.findViewById(R.id.textView12);
+        TextView type = (TextView) listItem.findViewById(R.id.textView13);
+
+        title.setText(currentPost.getTitle());
+        location.setText(currentPost.getLocation());
+        type.setText(currentPost.getType());
+
+        return listItem;
     }
 
 }

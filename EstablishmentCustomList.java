@@ -1,7 +1,9 @@
 package com.example.bruger.test;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,47 +20,39 @@ import java.util.List;
 
 public class EstablishmentCustomList extends ArrayAdapter<Establishment> {
 
-    /*private List<String> names = new ArrayList<>();
-    private List<String> addresses = new ArrayList<>();
-    private List<String> types = new ArrayList<>();
-    private List<Double> ratings = new ArrayList<>();
-    private List<Integer> imgs = new ArrayList<>();
-    */
     List<Establishment> establishments = new ArrayList<>();
+    private Context mContext;
 
-    public EstablishmentCustomList(Context context, List<Establishment> establishments){
-        super(context, R.layout.establishment_custom_list);
-        this.establishments = establishments;
+    public EstablishmentCustomList(@NonNull Context context, @LayoutRes List<Establishment> list){
+        super(context, 0,list);
+        mContext = context;
+        establishments = list;
     }
 
-    /*public EstablishmentCustomList(Context context, List<String> names, List<String> addresses, List<String> types, List<Double> ratings, List<Integer> imgs) {
-        super(context, R.layout.establishment_custom_list);
-        this.names = names;
-        this.addresses = addresses;
-        this.types = types;
-        this.ratings = ratings;
-        this.imgs = imgs;
-    }*/
-
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View row = layoutInflater.inflate(R.layout.establishment_custom_list, parent, false);
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View listItem = convertView;
 
-        TextView name = (TextView) row.findViewById(R.id.textView5);
-        TextView address = (TextView) row.findViewById(R.id.textView9);
-        TextView type = (TextView) row.findViewById(R.id.textView7);
-        TextView rating = (TextView) row.findViewById(R.id.textView8);
+        if(listItem == null){
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.establishment_custom_list,parent,false);
+        }
+        TextView name = (TextView) listItem.findViewById(R.id.textView5);
+        TextView address = (TextView) listItem.findViewById(R.id.textView9);
+        TextView type = (TextView) listItem.findViewById(R.id.textView7);
+        TextView rating = (TextView) listItem.findViewById(R.id.textView8);
 
-        ImageView imgView = (ImageView) row.findViewById(R.id.img);
+        ImageView imgView = (ImageView) listItem.findViewById(R.id.img);
 
-        name.setText(establishments.get(position).getName());
-        address.setText(establishments.get(position).getAddress());
-        type.setText(establishments.get(position).getType());
-        rating.setText(String.valueOf(establishments.get(position).getRating()));
+        Establishment currentEstablishment = establishments.get(position);
 
-        imgView.setImageResource(establishments.get(position).getImg());
+        name.setText(currentEstablishment.getName());
+        address.setText(currentEstablishment.getAddress());
+        type.setText("Type: " + currentEstablishment.getType());
+        rating.setText("Ratings: " + String.valueOf(currentEstablishment.getRating()));
 
-        return row;
+        imgView.setImageResource(currentEstablishment.getImg());
+
+        return listItem;
     }
 }

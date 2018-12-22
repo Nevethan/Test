@@ -12,7 +12,7 @@ public class Register extends AppCompatActivity {
 
     EditText registerUsername, registerPassword;
 
-    DataManager dataManager = new DataManager();
+    DataManager dataManager = DataManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class Register extends AppCompatActivity {
             Toast.makeText(this, "Username already exists. Please try again", Toast.LENGTH_SHORT).show();
         }else{
             Intent intent = new Intent(this,Board.class);
+            intent.putExtra("category", "All");
             startActivity(intent);
         }
     }

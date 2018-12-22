@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     //FirebaseManager firebaseManager = new FirebaseManager();
-    DataManager dataManager = new DataManager();
+    DataManager dataManager = DataManager.getInstance();
 
     EditText mEditUsername, mEditPassword;
 
@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
         mEditUsername = (EditText) findViewById(R.id.editUsername);
         mEditPassword = (EditText) findViewById(R.id.editPassword);
 
-        //databaseReference = FirebaseDatabase.getInstance().getReference();
-
+        initiateData();
     }
 
     public void logIn(View view){
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(checkUsername){
             Intent intent = new Intent(this,Board.class);
-            intent.putExtra("category", "All");
+
             startActivity(intent);
         }else{
             Toast.makeText(this,"The user credentials are wrong. Please try again", Toast.LENGTH_SHORT).show();
@@ -47,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
     public void register(View view){
         Intent intent = new Intent(this,Register.class);
         startActivity(intent);
+    }
+
+    private void initiateData(){
+        dataManager.getEstablishments();
+        dataManager.getPosts();
     }
 
 }

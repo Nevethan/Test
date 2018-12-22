@@ -3,12 +3,17 @@ package com.example.bruger.test;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,30 +30,26 @@ import java.util.List;
  * source : http://camposha.info/source/android-viewpager-sliding-tabs-listviews-source
  */
 
-public class Tab1Posts extends Fragment {
+public class Tab1Posts extends Fragment{
 
     List<Post> posts = new ArrayList<>();
 
-    DataManager dataManager = new DataManager();
-    PostCustomList postCustomList;
+    DataManager dataManager = DataManager.getInstance();
 
-    Bundle extras = new Bundle();
+    private ListView listView;
+    private PostCustomList mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab1_fragment,container,false);
 
-        ListView listView = (ListView) view.findViewById(R.id.listView);
+        listView = (ListView) view.findViewById(R.id.listView);
 
-        getData();
+        posts = dataManager.returnPostList();
 
-        postCustomList = new PostCustomList(this.getActivity(),posts);
-
-        //Make a onclickitemtlistener. When users click on a post, the name of the establishment should appear as a Toast.
-
-        listView.setAdapter(postCustomList);
-        //The message received from this code, will tell which category the user wants.
+        mAdapter = new PostCustomList(this.getActivity(),posts);
+        listView.setAdapter(mAdapter);
 
         return view;
     }
@@ -56,14 +57,13 @@ public class Tab1Posts extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        String category = extras.getString("category");
-        dataManager.checkCategory(category);
-        //posts = dataManager.returnPosts();
-        postCustomList.notifyDataSetChanged();
+        /*posts = dataManager.returnPostList();
+        mAdapter = new PostCustomList(this.getActivity(),posts);
+        listView.setAdapter(mAdapter);*/
     }
 
     private void getData(){
         posts.clear();
-        posts = dataManager.getPosts();
+        posts = dataManager.returnPostList();
     }
 }

@@ -15,18 +15,21 @@ public class EstablishmentsList extends AppCompatActivity {
 
     List<Establishment> establishments = new ArrayList<>();
 
-    DataManager dataManager = new DataManager();
+    DataManager dataManager = DataManager.getInstance();
+
+    private ListView listView;
+    private EstablishmentCustomList mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_establishments_list);
 
-        ListView listView = (ListView) findViewById(R.id.listViewEstablishments);
+        listView = (ListView) findViewById(R.id.listViewEstablishments);
 
-        establishments = dataManager.getEstablishments();
+        establishments = dataManager.returnEstablishmentList();
 
-        EstablishmentCustomList establishmentCustomList = new EstablishmentCustomList(this,establishments);
+        mAdapter = new EstablishmentCustomList(this,establishments);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -36,7 +39,7 @@ public class EstablishmentsList extends AppCompatActivity {
             }
         });
 
-        listView.setAdapter(establishmentCustomList);
+        listView.setAdapter(mAdapter);
     }
 
     public void directToEstablishmentInfo(String msg){
