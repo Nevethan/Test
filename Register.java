@@ -22,7 +22,6 @@ public class Register extends AppCompatActivity {
         registerUsername = (EditText) findViewById(R.id.editTextUsernameRegister);
         registerPassword = (EditText) findViewById(R.id.editTextPasswordRegister);
 
-
     }
 
     public void registerNewUsername(View view){
@@ -31,12 +30,15 @@ public class Register extends AppCompatActivity {
 
         boolean checkIfUserExits = dataManager.checkRegisterCredentials(username, password);
 
-        if(checkIfUserExits){
-            Toast.makeText(this, "Username already exists. Please try again", Toast.LENGTH_SHORT).show();
+        if(!username.isEmpty() && !password.isEmpty()){
+            if(checkIfUserExits){
+                Toast.makeText(this, "Username already exists. Please try again", Toast.LENGTH_SHORT).show();
+            }else{
+                Intent intent = new Intent(this,Board.class);
+                startActivity(intent);
+            }
         }else{
-            Intent intent = new Intent(this,Board.class);
-            intent.putExtra("category", "All");
-            startActivity(intent);
+            Toast.makeText(this,"Please enter an username and a password", Toast.LENGTH_SHORT).show();
         }
     }
 }

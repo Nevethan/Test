@@ -34,8 +34,7 @@ public class EstablishmentInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
         establishmentName= intent.getStringExtra("Name of Establishment");
-
-        getdata();
+        establishmentList = dataManager.getAllEstablishments();
 
         for(Establishment e : establishmentList){
             if(e.getName().equals(establishmentName)){
@@ -49,10 +48,5 @@ public class EstablishmentInfo extends AppCompatActivity {
                 imgView.setImageDrawable(icon);
             }
         }
-    }
-
-    private void getdata(){
-        dataManager.getEstablishments();
-        establishmentList = dataManager.returnEstablishmentList();
     }
 }

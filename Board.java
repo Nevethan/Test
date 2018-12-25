@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 public class Board extends AppCompatActivity {
     /*
-    Source https://www.youtube.com/watch?v=bNpWGI_hGGg
-     */
+        Source https://www.youtube.com/watch?v=bNpWGI_hGGg
+    */
 
     private SectionsPageAdapter mSectionsPageAdapter;
 
@@ -55,32 +55,32 @@ public class Board extends AppCompatActivity {
         return true;
     }
 
+    /*
+            The switch statement has a case for each menu item and its implementation.
+            Each of the categories call a method from DataManager to update the list showed in the listview.
+            Then the entire board.class will be refreshed.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        /*
-        Use putExtra for sending message to another activity
-        https://stackoverflow.com/questions/16014144/send-message-from-one-activity-to-another
-         */
         switch (item.getItemId()) {
             case R.id.about:
                 Toast.makeText(this, "about", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.all:
-                dataManager.getEstablishments();
-                //Toast.makeText(this, "Item 2", Toast.LENGTH_LONG).show();
+                dataManager.allCategory();
+                directToBoard();
                 return true;
             case R.id.clubs:
                 dataManager.barsCategory();
                 directToBoard();
-                //categorizePosts("Clubs, Bars & Pubs");
-                //Toast.makeText(this, "Item 3", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.restaurants:
-                //categorizePosts("Restaurants & Café");
+                dataManager.cafeCategory();
+                directToBoard();
                 return true;
             case R.id.hotspots:
-                //categorizePosts("Hotspots");
+                dataManager.hotCategory();
+                directToBoard();
                 return true;
             case R.id.list_establishments:
                 directToEstablishmentList();
@@ -88,11 +88,6 @@ public class Board extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*public void categorizePosts(String category){
-        //See if you can direct to Board Activity - so that you dont have to be directed to tab1 every time.
-        dataManager.checkCategory(category);
-    }*/
 
     public void directToEstablishmentList(){
         Intent intent = new Intent(this, EstablishmentsList.class);

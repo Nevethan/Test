@@ -37,6 +37,7 @@ public class EstablishmentCustomList extends ArrayAdapter<Establishment> {
         if(listItem == null){
             listItem = LayoutInflater.from(mContext).inflate(R.layout.establishment_custom_list,parent,false);
         }
+
         TextView name = (TextView) listItem.findViewById(R.id.textView5);
         TextView address = (TextView) listItem.findViewById(R.id.textView9);
         TextView type = (TextView) listItem.findViewById(R.id.textView7);

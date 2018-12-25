@@ -27,7 +27,7 @@ public class EstablishmentsList extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listViewEstablishments);
 
-        establishments = dataManager.returnEstablishmentList();
+        establishments = dataManager.getAllEstablishments();
 
         mAdapter = new EstablishmentCustomList(this,establishments);
 

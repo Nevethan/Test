@@ -32,14 +32,18 @@ public class MainActivity extends AppCompatActivity {
         String tempUsername = mEditUsername.getText().toString();
         String tempPassword = mEditPassword.getText().toString();
 
-        boolean checkUsername = dataManager.checkUserCredentials(tempUsername, tempPassword);
+        boolean checkUser = dataManager.checkUserCredentials(tempUsername, tempPassword);
 
-        if(checkUsername){
-            Intent intent = new Intent(this,Board.class);
+        if(!tempUsername.isEmpty() && !tempPassword.isEmpty()){
+            if(checkUser){
+                Intent intent = new Intent(this,Board.class);
 
-            startActivity(intent);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this,"The user credentials are wrong. Please try again", Toast.LENGTH_SHORT).show();
+            }
         }else{
-            Toast.makeText(this,"The user credentials are wrong. Please try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Please enter an username and a password", Toast.LENGTH_SHORT).show();
         }
     }
 

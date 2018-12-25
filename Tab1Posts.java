@@ -54,16 +54,4 @@ public class Tab1Posts extends Fragment{
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*posts = dataManager.returnPostList();
-        mAdapter = new PostCustomList(this.getActivity(),posts);
-        listView.setAdapter(mAdapter);*/
-    }
-
-    private void getData(){
-        posts.clear();
-        posts = dataManager.returnPostList();
-    }
 }
